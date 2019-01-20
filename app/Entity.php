@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Person extends Model
+class Entity extends Model
 {
 
 
@@ -14,27 +14,25 @@ class Person extends Model
      * @var array
      * $table->increments('id');
         $table->string('name');
-        $table->string('lastname');
-        $table->string('dni');
-        $table->string('age');
         $table->string('address');
-        $table->string('cellphone');
         $table->string('email');
+        $table->string('telephone');
         $table->timestamps();
      */
     protected $fillable = [
         'name',
-        'lastname',
-        'dni',
-        'age',
         'address',
-        'cellphone',
-        'email'
+        'email',
+        'telephone'
     ];
 
-    public function student()
+    public function entity_type()
     {
-        return $this->belongsTo('App\Student');
+        return $this->belongsTo('App\Entity_type');
     }
 
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }
 }
