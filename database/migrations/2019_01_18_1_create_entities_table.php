@@ -15,6 +15,8 @@ class CreateEntitiesTable extends Migration
     {
         Schema::create('entities', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('entity_type_id')->unsigned();
+            $table->foreign('entity_type_id')->references('id')->on('entity_types');
             $table->string('name');
             $table->string('address');
             $table->string('email');

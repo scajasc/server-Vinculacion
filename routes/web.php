@@ -20,3 +20,5 @@ $router->get('/key', function (){
 });
 
 $router->get('/person', ['uses' => 'PersonController@index']);
+
+$router->post('/careers', ['uses' => 'CareersController@createCareer']); //la ruta en plural

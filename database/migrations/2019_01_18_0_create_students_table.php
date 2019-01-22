@@ -19,7 +19,7 @@ class CreateStudentsTable extends Migration
             $table->foreign('career_id')->references('id')->on('careers');
             $table->integer('person_id')->unsigned();
             $table->foreign('person_id')->references('id')->on('persons');
-            $table->increments('level');
+            $table->string('level');
             $table->timestamps();
         });
     }
@@ -27,7 +27,7 @@ class CreateStudentsTable extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @return void ..
      */
     public function down()
     {
