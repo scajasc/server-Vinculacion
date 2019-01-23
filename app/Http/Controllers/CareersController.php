@@ -47,5 +47,24 @@ class CareersController extends Controller
         }
     }
 
+    public function getAllCareers(Request $request){
+        try {
+            $careers = Career::get()->first();
+            return response()->json($careers, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json($e, 405);
+        } catch (NotFoundHttpException  $e) {
+            return response()->json($e, 405);
+        } catch (QueryException $e) {
+            return response()->json($e, 409);
+        } catch (\PDOException $e) {
+            return response()->json($e, 409);
+        } catch (Exception $e) {
+            return response()->json($e, 500);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
+
     //
 }

@@ -18,19 +18,19 @@ class EntityTypesController extends Controller
         //
     }
 
-    public function createCareer(Request $request)
+    public function createEntityType(Request $request)
     {
         try{
             //solo data si nio quiero enviar objetos
             $data = $request->json()->all();
-            $dataUser = $data['career'];
+            $dataEntityType = $data['$entityType'];
             //DB::beginTransaction();
-            $career = Career::create([
-                'name' => strtoupper($dataUser['name'])
+            $entityType= EntityType::create([
+                'name_type' => strtoupper($dataEntityType['name_type']) //$dataEntityType['name']
             ]);
 
             //DB::commit();
-            return response()->json(['career' => $career], 201);
+            return response()->json(['$entityType' => $entityType], 201);
 
         }catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
