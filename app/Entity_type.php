@@ -13,8 +13,6 @@ class Entity_type extends Model
      *
      * @var array
      * $table->increments('id');
-        $table->integer('entity_id')->unsigned();
-        $table->foreign('entity_id')->references('id')->on('entities');
         $table->string('name_type');
         $table->timestamps();
      */
@@ -24,7 +22,7 @@ class Entity_type extends Model
 
     public function entities()
     {
-        return $this->hasMany('App\Entity');
+        return $this->belongsTo('App\Entity');
     }
 
 }

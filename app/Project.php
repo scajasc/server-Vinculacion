@@ -15,6 +15,10 @@ class Project extends Model
      * $table->increments('id');
         $table->integer('student_id')->unsigned();
         $table->foreign('student_id')->references('id')->on('students');
+        $table->integer('tutor_id')->unsigned();
+        $table->foreign('tutor_id')->references('id')->on('tutors');
+        $table->integer('coordinator_id')->unsigned();
+        $table->foreign('coordinator_id')->references('id')->on('coordinators');
         $table->integer('entity_id')->unsigned();
         $table->foreign('entity_id')->references('id')->on('entities');
         $table->string('theme');
@@ -40,6 +44,15 @@ class Project extends Model
     public function students()
     {
         return $this->hasMany('App\Student');
+    }
+
+    public function tutor()
+    {
+        return $this->hasOne('App\Tutor');
+    }
+    public function coordinator()
+    {
+        return $this->hasOne('App\Coordinator');
     }
 
 

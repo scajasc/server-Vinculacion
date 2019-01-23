@@ -37,4 +37,14 @@ class Person extends Model
         return $this->belongsTo('App\Student');
     }
 
+    public function tutor()
+    {
+        return $this->belongsTo('App\Tutor');
+    }
+
+    public function coordinator()
+    {
+        return $this->belongsTo('App\Coordinator');
+    }
+
 }

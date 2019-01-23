@@ -26,9 +26,9 @@ class Entity extends Model
         'telephone'
     ];
 
-    public function entity_type()
+    public function entities_type()
     {
-        return $this->belongsTo('App\Entity_type');
+        return $this->hasMany('App\Entity_type');
     }
 
     public function project()
