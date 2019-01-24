@@ -19,8 +19,6 @@ class Project extends Model
         $table->foreign('tutor_id')->references('id')->on('tutors');
         $table->integer('coordinator_id')->unsigned();
         $table->foreign('coordinator_id')->references('id')->on('coordinators');
-        $table->integer('entity_id')->unsigned();
-        $table->foreign('entity_id')->references('id')->on('entities');
         $table->string('theme');
         $table->string('hours');
         $table->date('start_date');
@@ -36,9 +34,9 @@ class Project extends Model
         'route_file'
     ];
 
-    public function entity()
+    public function agreement()
     {
-        return $this->belongsTo('App\Entity');
+        return $this->belongsTo('App\Agreement');
     }
 
     public function students()

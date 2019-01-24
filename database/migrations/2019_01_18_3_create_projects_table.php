@@ -21,8 +21,6 @@ class CreateProjectsTable extends Migration
             $table->foreign('tutor_id')->references('id')->on('tutors');
             $table->integer('coordinator_id')->unsigned();
             $table->foreign('coordinator_id')->references('id')->on('coordinators');
-            $table->integer('entity_id')->unsigned();
-            $table->foreign('entity_id')->references('id')->on('entities');
             $table->string('theme');
             $table->string('hours');
             $table->date('start_date');
