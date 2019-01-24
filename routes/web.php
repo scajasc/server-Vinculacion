@@ -19,30 +19,53 @@ $router->get('/key', function (){
    return str_random(32);
 });
 
-/***********************************************Career***********************************************/
-$router->post('/careers', ['uses' => 'CareersController@createCareer']); //la ruta en plural
-$router->get('/careers', ['uses' => 'CareersController@getAllCareers']);
+/*Las rutas siempre deben ir en plural*/
 
-/***********************************************entity_type***********************************************/
+/************************************************************************************************************************/
+/*Rutas de Carrera x*/
+$router->get('/careers', ['uses' => 'CareersController@getAllCareers']);
+$router->post('/careers', ['uses' => 'CareersController@createCareer']);
+$router->put('/entity_types', ['uses' => 'EntityTypesController@updateCareer']);
+
+
+/************************************************************************************************************************/
+/*Rutas de tipo de entidad (0)*/
+$router->get('/entity_types', ['uses' => 'EntityTypesController@getAllTypes']);
 $router->post('/entity_types', ['uses' => 'EntityTypesController@createEntityType']);
 
-/***********************************************entity***********************************************/
+/************************************************************************************************************************/
+/*Rutas de Entidades*/
+$router->get('/entities', ['uses' => 'EntitiesController@getAllEntities']);
 $router->post('/entities', ['uses' => 'EntitiesController@createEntity']);
 
-/***********************************************person***********************************************/
-$router->post('/persons', ['uses' => 'PersonsController@createPerson']);
+/************************************************************************************************************************/
+/*Rutas de Personas*/
 $router->get('/persons', ['uses' => 'PersonsController@getAllPersons']);
 
-/***********************************************Project***********************************************/
+/************************************************************************************************************************/
+/*Rutas de Proyectos*/
+$router->get('/persons', ['uses' => 'PersonsController@getAllPersons']);
 $router->post('/projects', ['uses' => 'ProjectsController@createProject']);
 
-/***********************************************student***********************************************/
-//$router->post('/careers', ['uses' => 'CareersController@createCareer']);
+/************************************************************************************************************************/
+/*Rutas de Convenios*/
+$router->get('/agreements', ['uses' => 'AgreementsController@getAllAgreements']);
+$router->post('/projects', ['uses' => 'ProjectsController@createProject']);
 
-/***********************************************coordinator***********************************************/
-//$router->post('/careers', ['uses' => 'CareersController@createCareer']);
+/************************************************************************************************************************/
+/*Rutas de Estudiantes*/
+$router->get('/students', ['uses' => 'StudentsController@getAllStudents']);
 
-/***********************************************tutor***********************************************/
-//$router->post('/careers', ['uses' => 'CareersController@createCareer']);
+/************************************************************************************************************************/
+/*Rutas de Coordinador*/
+$router->get('/coordinators', ['uses' => 'CoordinatorsController@getAllCoordinators']);
+$router->post('/projects', ['uses' => 'ProjectsController@createProject']);
+
+/************************************************************************************************************************/
+/*Rutas de Tutores asignados*/
+$router->get('/tutors', ['uses' => 'TutorsController@getAllTutors']);
+$router->post('/projects', ['uses' => 'ProjectsController@createProject']);
+
+
 
 
