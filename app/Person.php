@@ -34,17 +34,17 @@ class Person extends Model
 
     public function student()
     {
-        return $this->belongsTo('App\Student');
+        return $this->hasOne('App\Student');
     }
 
     public function tutor()
     {
-        return $this->belongsTo('App\Tutor');
+        return $this->hasOne('App\Tutor');
     }
 
     public function coordinator()
     {
-        return $this->belongsTo('App\Coordinator');
+        return $this->hasOne('App\Coordinator');
     }
 
 }

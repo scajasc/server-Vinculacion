@@ -73,7 +73,7 @@ class EntityTypesController extends Controller
             $data = $request->json()->all();
             $dataEntityType = $data['entity_type'];
             $entityType = Entity_type::findOrFail($dataEntityType ['id'])->update([
-                '$entityType' => $dataEntityType ['name_type'],
+                'name_type' => $dataEntityType ['name_type'],
             ]);
             return response()->json($entityType, 201);
         } catch (ModelNotFoundException $e) {

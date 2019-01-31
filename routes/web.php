@@ -38,6 +38,7 @@ $router->put('/entity_types', ['uses' => 'EntityTypesController@updateEntityType
 /*Rutas de Entidades*/
 $router->get('/entities', ['uses' => 'EntitiesController@getAllEntities']);
 $router->post('/entities', ['uses' => 'EntitiesController@createEntity']);
+$router->put('/entities', ['uses' => 'EntitiesController@updateEntity']);
 
 /************************************************************************************************************************/
 /*Rutas de Personas*/
@@ -45,13 +46,15 @@ $router->get('/persons', ['uses' => 'PersonsController@getAllPersons']);
 
 /************************************************************************************************************************/
 /*Rutas de Proyectos*/
-$router->get('/persons', ['uses' => 'PersonsController@getAllPersons']);
+$router->get('/projects', ['uses' => 'ProjectsController@getAllProjects']);
 $router->post('/projects', ['uses' => 'ProjectsController@createProject']);
+$router->put('/projects', ['uses' => 'ProjectsController@createProject']);
 
 /************************************************************************************************************************/
 /*Rutas de Convenios*/
 $router->get('/agreements', ['uses' => 'AgreementsController@getAllAgreements']);
-$router->post('/projects', ['uses' => 'ProjectsController@createProject']);
+$router->post('/agreements', ['uses' => 'AgreementsController@createAgreement']);
+$router->put('/agreements', ['uses' => 'AgreementsController@updateAgreement']);
 
 /************************************************************************************************************************/
 /*Rutas de Estudiantes*/
@@ -60,12 +63,15 @@ $router->get('/students', ['uses' => 'StudentsController@getAllStudents']);
 /************************************************************************************************************************/
 /*Rutas de Coordinador*/
 $router->get('/coordinators', ['uses' => 'CoordinatorsController@getAllCoordinators']);
-$router->post('/projects', ['uses' => 'ProjectsController@createProject']);
+$router->post('/coordinators', ['uses' => 'CoordinatorsController@createCoordinator']);
+$router->put('/coordinators', ['uses' => 'CoordinatorsController@updateCoordinator']);
 
 /************************************************************************************************************************/
 /*Rutas de Tutores asignados*/
 $router->get('/tutors', ['uses' => 'TutorsController@getAllTutors']);
-$router->post('/projects', ['uses' => 'ProjectsController@createProject']);
+$router->post('/tutors', ['uses' => 'TutorsController@createTutor']);
+$router->put('/tutors', ['uses' => 'TutorsController@updateTutor']);
+
 
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Career;
+use App\Entity;
 use App\Entity_type;
 use Illuminate\Http\Request;
 
@@ -19,10 +20,10 @@ class EntitiesController extends Controller
         //
     }
 
-    public function getAllTypes(Request $request){
+    public function getAllEntities(Request $request){
         try {
-            $entity_types = Entity_type::get();
-            return response()->json($entity_types, 200);
+            $entities = Entity::get(); //
+            return response()->json($entities, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
@@ -68,15 +69,18 @@ class EntitiesController extends Controller
         }
     }
 
-    function updateEntityType(Request $request)
+    function updateEntity(Request $request)
     {
         try {
             $data = $request->json()->all();
-            $dataEntityType = $data['entity_type'];
-            $entityType = Entity_type::findOrFail($dataEntityType ['id'])->update([
-                '$entityType' => $dataEntityType ['name_type'],
+            $dataEntity = $data['entity'];
+            $entity = Entity::findOrFail($dataEntity ['id'])->update([
+                'name' => $dataEntity ['name'],
+                'address' => $dataEntity ['address'],
+                'email' => $dataEntity ['email'],
+                'telephone' => $dataEntity ['telephone'],
             ]);
-            return response()->json($entityType, 201);
+            return response()->json($entity, 201);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {

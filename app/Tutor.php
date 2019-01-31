@@ -28,7 +28,7 @@ class Tutor extends Model
 
     public function person()
     {
-        return $this->hasOne('App\Person');
+        return $this->belongsTo('App\Person');
     }
 
 
