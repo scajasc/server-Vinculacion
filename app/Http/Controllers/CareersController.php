@@ -20,7 +20,7 @@ class CareersController extends Controller
 
     public function getAllCareers(Request $request){
         try {
-            $careers = Career::get()->first();
+            $careers = Career::get(); //->first()
             return response()->json($careers, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
@@ -70,7 +70,7 @@ class CareersController extends Controller
     {
         try {
             $data = $request->json()->all();
-            $dataCareer = $data['language'];
+            $dataCareer = $data['career'];
             $career = Career::findOrFail($dataCareer ['id'])->update([
                 'name' => $dataCareer ['name'],
             ]);

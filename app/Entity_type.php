@@ -22,7 +22,7 @@ class Entity_type extends Model
 
     public function entities()
     {
-        return $this->belongsTo('App\Entity');
+        return $this->hasMany('App\Entity');
     }
 
 }

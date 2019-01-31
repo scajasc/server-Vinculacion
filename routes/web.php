@@ -25,13 +25,14 @@ $router->get('/key', function (){
 /*Rutas de Carrera x*/
 $router->get('/careers', ['uses' => 'CareersController@getAllCareers']);
 $router->post('/careers', ['uses' => 'CareersController@createCareer']);
-$router->put('/entity_types', ['uses' => 'EntityTypesController@updateCareer']);
+$router->put('/careers', ['uses' => 'CareersController@updateCareer']);
 
 
 /************************************************************************************************************************/
-/*Rutas de tipo de entidad (0)*/
+/*Rutas de tipo de entidad (x)*/
 $router->get('/entity_types', ['uses' => 'EntityTypesController@getAllTypes']);
 $router->post('/entity_types', ['uses' => 'EntityTypesController@createEntityType']);
+$router->put('/entity_types', ['uses' => 'EntityTypesController@updateEntityType']);
 
 /************************************************************************************************************************/
 /*Rutas de Entidades*/
