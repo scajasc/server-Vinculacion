@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Career;
 use App\Coordinator;
+use App\Project;
 use App\Student;
 use App\Tutor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class ProjectsController extends Controller
@@ -45,25 +47,38 @@ class ProjectsController extends Controller
         try {
             $data = $request->json()->all();
             $dataProject = $data['project'];
-            $student = Student::where('id', $dataProject['student_id'])->first();
+            /*$student = Student::where('id', $dataProject['student_id'])->first();
             $tutor = Tutor::where('id', $dataProject['tutor_id'])->first();
             $coordinator = Coordinator::where('id', $dataProject['coordinator_id'])->first();
             if ($student && $coordinator && $tutor) {
-                $response = $student->project()->create([
+                /$project = Project::create([
                     'theme' => $dataProject ['theme'],
                     'hours' => $dataProject ['hours'],
                     'start_date' => $dataProject ['start_date'],
                     'end_date' => $dataProject ['end_date'],
                     'route_file' => $dataProject ['route_file'],
                 ]);
+                $project->student()->attach($dataProject['student_id']);
+                $project->tutor()->attach($dataProject['student_id']);
+                $project->coordinator()->attach($dataProject['student_id']);*/
 
-                $tutor->project()->save($dataProject['tutor_id']);
-                $coordinator->project()->save($dataProject['coordinator_id']);
+                $sql="INSERT INTO projects (student_id, tutor_id, coordinator_id, theme, hours, start_date, end_date, route_file)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                $parameters=[
+                    $dataProject['student_id'],
+                    $dataProject['tutor_id'],
+                    $dataProject['coordinator_id'],
+                    $dataProject ['theme'],
+                    $dataProject ['hours'],
+                    $dataProject ['start_date'],
+                    $dataProject ['end_date'],
+                    $dataProject ['route_file']
+                ];
+
+                $response = DB::select($sql, $parameters );
 
                 return response()->json($response, 201);
-            } else {
-                return response()->json(null, 404);
-            }
+
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
