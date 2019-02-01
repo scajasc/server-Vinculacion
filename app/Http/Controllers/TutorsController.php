@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Career;
 use App\Person;
+use App\Tutor;
 use Illuminate\Http\Request;
 
 
@@ -21,8 +22,8 @@ class TutorsController extends Controller
 
     public function getAllTutors(Request $request){
         try {
-            $coordinators = Coordinator::get(); //
-            return response()->json($coordinators, 200);
+            $tutors = Tutor::get(); //
+            return response()->json($tutors, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
@@ -78,14 +79,17 @@ class TutorsController extends Controller
     {
         try {
             $data = $request->json()->all();
-            $dataEntity = $data['entity'];
-            $entity = Entity::findOrFail($dataEntity ['id'])->update([
-                'name' => $dataEntity ['name'],
-                'address' => $dataEntity ['address'],
-                'email' => $dataEntity ['email'],
-                'telephone' => $dataEntity ['telephone'],
+            $dataPerson = $data['person'];
+            $person = Person::findOrFail($dataPerson ['id'])->update([
+                'name' => strtoupper($dataPerson['name']),
+                'lastname' => $dataPerson['lastname'],
+                'dni' => $dataPerson['dni'],
+                'age' => $dataPerson['age'],
+                'address' => $dataPerson['address'],
+                'cellphone' => $dataPerson['cellphone'],
+                'email' => $dataPerson['email'],
             ]);
-            return response()->json($entity, 201);
+            return response()->json($person, 201);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {

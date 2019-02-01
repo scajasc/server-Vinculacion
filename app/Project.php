@@ -36,21 +36,21 @@ class Project extends Model
 
     public function agreement()
     {
-        return $this->belongsTo('App\Agreement');
+        return $this->hasOne('App\Agreement');
     }
 
-    public function students()
+    public function student()
     {
-        return $this->hasMany('App\Student');
+        return $this->belongsTo('App\Student');
     }
 
     public function tutor()
     {
-        return $this->hasOne('App\Tutor');
+        return $this->belongsTo('App\Tutor');
     }
     public function coordinator()
     {
-        return $this->hasOne('App\Coordinator');
+        return $this->belongsTo('App\Coordinator');
     }
 
 

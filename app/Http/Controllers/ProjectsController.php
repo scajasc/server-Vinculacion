@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Career;
+use App\Coordinator;
+use App\Student;
+use App\Tutor;
 use Illuminate\Http\Request;
 
 
@@ -18,21 +21,11 @@ class ProjectsController extends Controller
         //
     }
 
-    public function createCareer(Request $request)
-    {
-        try{
-            //solo data si nio quiero enviar objetos
-            $data = $request->json()->all();
-            $dataUser = $data['career'];
-            //DB::beginTransaction();
-            $career = Career::create([
-                'name' => strtoupper($dataUser['name'])
-            ]);
-
-            //DB::commit();
-            return response()->json(['career' => $career], 201);
-
-        }catch (ModelNotFoundException $e) {
+    public function getAllProjects(Request $request){
+        try {
+            $entities = Entity::get(); //
+            return response()->json($entities, 200);
+        } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
             return response()->json($e, 405);
@@ -40,6 +33,68 @@ class ProjectsController extends Controller
             return response()->json($e, 409);
         } catch (\PDOException $e) {
             return response()->json($e, 409);
+        } catch (Exception $e) {
+            return response()->json($e, 500);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
+
+    public function createProject(Request $request)
+    {
+        try {
+            $data = $request->json()->all();
+            $dataProject = $data['project'];
+            $student = Student::where('id', $dataProject['student_id'])->first();
+            $tutor = Tutor::where('id', $dataProject['tutor_id'])->first();
+            $coordinator = Coordinator::where('id', $dataProject['coordinator_id'])->first();
+            if ($student && $coordinator && $tutor) {
+                $response = $student->project()->create([
+                    'theme' => $dataProject ['theme'],
+                    'hours' => $dataProject ['hours'],
+                    'start_date' => $dataProject ['start_date'],
+                    'end_date' => $dataProject ['end_date'],
+                    'route_file' => $dataProject ['route_file'],
+                ]);
+
+                $tutor->project()->save($dataProject['tutor_id']);
+                $coordinator->project()->save($dataProject['coordinator_id']);
+
+                return response()->json($response, 201);
+            } else {
+                return response()->json(null, 404);
+            }
+        } catch (ModelNotFoundException $e) {
+            return response()->json($e, 405);
+        } catch (NotFoundHttpException  $e) {
+            return response()->json($e, 405);
+        } catch (QueryException $e) {
+            return response()->json($e, 400);
+        } catch (Exception $e) {
+            return response()->json($e, 500);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
+
+    function updateProject(Request $request)
+    {
+        try {
+            $data = $request->json()->all();
+            $dataEntity = $data['entity'];
+            $entity = Entity::findOrFail($dataEntity ['id'])->update([
+                'name' => $dataEntity ['name'],
+                'address' => $dataEntity ['address'],
+                'email' => $dataEntity ['email'],
+                'telephone' => $dataEntity ['telephone'],
+            ]);
+            return response()->json($entity, 201);
+        } catch (ModelNotFoundException $e) {
+            return response()->json($e, 405);
+        } catch (NotFoundHttpException  $e) {
+            return response()->json($e, 405);
+        } catch (QueryException $e) {
+            return response()->json($e, 400);
         } catch (Exception $e) {
             return response()->json($e, 500);
         } catch (Error $e) {

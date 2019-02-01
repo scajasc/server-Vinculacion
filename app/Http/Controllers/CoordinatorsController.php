@@ -80,14 +80,17 @@ class CoordinatorsController extends Controller
     {
         try {
             $data = $request->json()->all();
-            $dataEntity = $data['entity'];
-            $entity = Entity::findOrFail($dataEntity ['id'])->update([
-                'name' => $dataEntity ['name'],
-                'address' => $dataEntity ['address'],
-                'email' => $dataEntity ['email'],
-                'telephone' => $dataEntity ['telephone'],
+            $dataPerson = $data['person'];
+            $person = Person::findOrFail($dataPerson ['id'])->update([
+                'name' => strtoupper($dataPerson['name']),
+                'lastname' => $dataPerson['lastname'],
+                'dni' => $dataPerson['dni'],
+                'age' => $dataPerson['age'],
+                'address' => $dataPerson['address'],
+                'cellphone' => $dataPerson['cellphone'],
+                'email' => $dataPerson['email'],
             ]);
-            return response()->json($entity, 201);
+            return response()->json($person, 201);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {

@@ -23,7 +23,7 @@ class Coordinator extends Model
 
     public function project()
     {
-        return $this->belongsTo('App\Project');
+        return $this->hasOne('App\Project');
     }
 
     public function person()

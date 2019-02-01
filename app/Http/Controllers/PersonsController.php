@@ -50,7 +50,7 @@ class PersonsController extends Controller
 
     public function getAllPersons(Request $request){
         try {
-            $persons = Person::get()->first();
+            $persons = Person::get();
             return response()->json($persons, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
