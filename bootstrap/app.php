@@ -92,6 +92,9 @@ $app->singleton(
 | can respond to, as well as the controllers that may handle them.
 |
 */
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: *');
+header('Access-Control-Allow-Headers: *');
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
