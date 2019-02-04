@@ -31,7 +31,7 @@ class Student extends Model
 
     public function career()
     {
-        return $this->hasOne('App\Career');
+        return $this->belongsTo('App\Career');
     }
     public function person()
     {

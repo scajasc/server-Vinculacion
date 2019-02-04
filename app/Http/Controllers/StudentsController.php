@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Career;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class StudentsController extends Controller
@@ -20,19 +21,29 @@ class StudentsController extends Controller
 
     public function createCareer(Request $request)
     {
-        try{
-            //solo data si nio quiero enviar objetos
+        try {
             $data = $request->json()->all();
-            $dataUser = $data['career'];
+            $dataPerson = $data['person'];
+            $dataStudent = $data['student'];
             //DB::beginTransaction();
-            $career = Career::create([
-                'name' => strtoupper($dataUser['name'])
+            $person = Person::create([
+                'name' => strtoupper($dataPerson['name']),
+                'lastname' => $dataPerson['lastname'],
+                'dni' => $dataPerson['dni'],
+                'age' => $dataPerson['age'],
+                'address' => $dataPerson['address'],
+                'cellphone' => $dataPerson['cellphone'],
+                'email' => $dataPerson['email'],
+            ]);
+            $response = $person->student()->create([
+
             ]);
 
-            //DB::commit();
-            return response()->json(['career' => $career], 201);
+            // DB::commit();
 
-        }catch (ModelNotFoundException $e) {
+            return response()->json($response, 201);
+
+        } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
             return response()->json($e, 405);
@@ -47,5 +58,30 @@ class StudentsController extends Controller
         }
     }
 
+    public function getAllStudents(Request $request)
+    {
+        try {
+            $sql = "SELECT  students.id, lastname, name, dni, age, address, cellphone, email
+              FROM students
+                INNER JOIN people on people.id = students.person_id order by lastname
+            ";
+
+            $response = DB::select($sql);
+
+            return response()->json($response, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json($e, 405);
+        } catch (NotFoundHttpException  $e) {
+            return response()->json($e, 405);
+        } catch (QueryException $e) {
+            return response()->json($e, 409);
+        } catch (\PDOException $e) {
+            return response()->json($e, 409);
+        } catch (Exception $e) {
+            return response()->json($e, 500);
+        } catch (Error $e) {
+            return response()->json($e, 500);
+        }
+    }
     //
 }
