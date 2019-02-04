@@ -59,9 +59,13 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+    $app->middleware([
+        'Vluzrmos\LumenCors\CorsMiddleware'
+    ]);
+
+    /*$app->middleware([
+        App\Http\Middleware\CorsMiddleware::class,
+    ]);*/
 
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
@@ -92,14 +96,14 @@ $app->singleton(
 | can respond to, as well as the controllers that may handle them.
 |
 */
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: *');
-header('Access-Control-Allow-Headers: *');
+
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+
 
 return $app;
