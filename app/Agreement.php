@@ -32,12 +32,12 @@ class Agreement extends Model
 
     public function entity()
     {
-        return $this->hasOne('App\Entity');
+        return $this->belongsTo('App\Entity');
     }
 
     public function projects()
     {
-        return $this->hasMany('App\Project');
+        return $this->belongsTo('App\Project');
     }
 
 

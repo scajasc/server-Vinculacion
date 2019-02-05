@@ -7,6 +7,7 @@ use App\Coordinator;
 use App\Entity;
 use App\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class CoordinatorsController extends Controller
@@ -23,8 +24,14 @@ class CoordinatorsController extends Controller
 
     public function getAllCoordinators(Request $request){
         try {
-            $coordinators = Coordinator::get(); //
-            return response()->json($coordinators, 200);
+            $sql = "SELECT  coordinators.id, last_name, name, dni, age, address, cellphone, email
+                      FROM coordinators
+                        INNER JOIN people on people.id = coordinators.person_id order by last_name
+            ";
+
+            $response = DB::select($sql);
+
+            return response()->json($response, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
@@ -49,7 +56,7 @@ class CoordinatorsController extends Controller
             //DB::beginTransaction();
             $person = Person::create([
                 'name' => strtoupper($dataPerson['name']),
-                'lastname' => $dataPerson['lastname'],
+                'last_name' => $dataPerson['last_name'],
                 'dni' => $dataPerson['dni'],
                 'age' => $dataPerson['age'],
                 'address' => $dataPerson['address'],
@@ -83,7 +90,7 @@ class CoordinatorsController extends Controller
             $dataPerson = $data['person'];
             $person = Person::findOrFail($dataPerson ['id'])->update([
                 'name' => strtoupper($dataPerson['name']),
-                'lastname' => $dataPerson['lastname'],
+                'last_name' => $dataPerson['lastname'],
                 'dni' => $dataPerson['dni'],
                 'age' => $dataPerson['age'],
                 'address' => $dataPerson['address'],

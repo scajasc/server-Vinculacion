@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Agreement;
 use App\Career;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class AgreementsController extends Controller
@@ -12,16 +14,30 @@ class AgreementsController extends Controller
      * Create a new controller instance.
      *
      * @return void
+     * SELECT agreements.id, theme,entities.name, entity_types.name_type, entity_id, project_id, state
+    FROM agreements
+    INNER JOIN entities on entities.id = agreements.entity_id
+    INNER JOIN projects on projects.id = agreements.project_id
+    INNER JOIN entity_types on entity_types.id = entities.entity_type_id
      */
     public function __construct()
     {
         //
     }
 
-    public function getAllAgreements(Request $request){
+    public function getAllAgreements(Request $request)
+    {
         try {
-            $entities = Entity::get(); //
-            return response()->json($entities, 200);
+            $sql = "SELECT agreements.id, theme,entities.name, entity_types.name_type, entity_id, project_id, state
+                    FROM agreements
+                        INNER JOIN entities on entities.id = agreements.entity_id
+                        INNER JOIN projects on projects.id = agreements.project_id
+                        INNER JOIN entity_types on entity_types.id = entities.entity_type_id
+            ";
+
+            $response = DB::select($sql);
+
+            return response()->json($response, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
@@ -41,26 +57,27 @@ class AgreementsController extends Controller
     {
         try {
             $data = $request->json()->all();
-            $dataProject = $data['project'];
-            $student = Student::where('id', $dataProject['student_id'])->first();
-            $tutor = Tutor::where('id', $dataProject['tutor_id'])->first();
-            $coordinator = Coordinator::where('id', $dataProject['coordinator_id'])->first();
-            if ($student && $coordinator && $tutor) {
-                $response = $student->project()->create([
-                    'theme' => $dataProject ['theme'],
-                    'hours' => $dataProject ['hours'],
-                    'start_date' => $dataProject ['start_date'],
-                    'end_date' => $dataProject ['end_date'],
-                    'route_file' => $dataProject ['route_file'],
-                ]);
+            $dataAgreement = $data['agreement'];
 
-                $tutor->project()->save($dataProject['tutor_id']);
-                $coordinator->project()->save($dataProject['coordinator_id']);
 
-                return response()->json($response, 201);
-            } else {
-                return response()->json(null, 404);
-            }
+            $sql = "INSERT INTO agreements(
+                            entity_id, project_id, state, route_file1, route_file2, route_file3
+                            )
+                    VALUES ( ?, ?, ?, ?, ?, ? 
+                        );";
+            $parameters = [
+                $dataAgreement['entity_id'],
+                $dataAgreement['project_id'],
+                $dataAgreement['state'],
+                $dataAgreement ['route_file1'],
+                $dataAgreement ['route_file2'],
+                $dataAgreement ['route_file3'],
+
+            ];
+
+            $response = DB::select($sql, $parameters);
+
+            return response()->json($response, 201);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {

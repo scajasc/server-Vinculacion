@@ -25,8 +25,8 @@ class ProjectsController extends Controller
 
     public function getAllProjects(Request $request){
         try {
-            $entities = Entity::get(); //
-            return response()->json($entities, 200);
+            $projects = Project::get(); //
+            return response()->json($projects, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {

@@ -6,6 +6,7 @@ use App\Career;
 use App\Person;
 use App\Tutor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class TutorsController extends Controller
@@ -22,8 +23,14 @@ class TutorsController extends Controller
 
     public function getAllTutors(Request $request){
         try {
-            $tutors = Tutor::get(); //
-            return response()->json($tutors, 200);
+            $sql = "SELECT  tutors.id, last_name, name, dni, age, address, cellphone, email
+                      FROM tutors
+                        INNER JOIN people on people.id = tutors.person_id order by last_name
+            ";
+
+            $response = DB::select($sql);
+
+            return response()->json($response, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json($e, 405);
         } catch (NotFoundHttpException  $e) {
@@ -82,7 +89,7 @@ class TutorsController extends Controller
             $dataPerson = $data['person'];
             $person = Person::findOrFail($dataPerson ['id'])->update([
                 'name' => strtoupper($dataPerson['name']),
-                'lastname' => $dataPerson['lastname'],
+                'last_name' => $dataPerson['lastname'],
                 'dni' => $dataPerson['dni'],
                 'age' => $dataPerson['age'],
                 'address' => $dataPerson['address'],
